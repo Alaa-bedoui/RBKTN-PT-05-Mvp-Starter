@@ -1,40 +1,34 @@
 // DELETE THIS LINE
-const selectAll = () => {};
 
 // UNCOMMENT THE DATABASE YOU'D LIKE TO USE
-// const db = require("../database-mysql");
+const db = require("../database-mysql");
 // const Item = require('../database-mongo/Item.model.js');
 
-// UNCOMMENT IF USING MYSQL WITH CALLBACKS
-// const selectAll = function (req, res) {
-//   db.query("SELECT * FROM items", (err, items, fields) => {
-//     if (err) {
-//       res.status(500).send(err);
-//     } else {
-//       res.status(200).send(items);
-//     }
-//   });
-// };
+const selectAll = function (req, res) {
+  db.query("SELECT * FROM item", (err, items, fields) => {
+    if (err) {
+      res.status(500).send(err);
+    } else {
+      res.status(200).send(items);
+    }
+  });
+};
 
-// UNCOMMENT IF USING MONGOOSE WITH PROMISES
-// const selectAll = function (req, res) {
-//   Item.find({})
-//     .then((items) => {
-//       res.status(200).send(items);
-//     })
-//     .catch((error) => {
-//       res.status(500).send(error);
-//     });
-// };
+const selectOneByUserId=function (req,res) {
+    const query=`select * from item where user_iduser = ${req.params.id}`
+    db.query(query,(err,result)=>{
+        err ? res.status(500).send(err) : res.status(200).send(result)
+    })
+}
 
-// UNCOMMENT IF USING MONGOOSE WITH PROMISES & ASYNC AWAIT
-// const selectAll = async function (req, res) {
-//   try {
-//     const items = await Item.find({});
-//     res.status(200).send(items);
-//   } catch (error) {
-//     res.status(200).send(error);
-//   }
-// };
+const selectOneItem=function (req,res) {
+    const query=`select * from item where iditem = ${req.params.idItem} `
+    db.query(query,(err,result)=>{
+        err ? res.status(500).send(err) : res.status(200).send(result)
+    })
+}
 
-module.exports = { selectAll };
+
+
+
+module.exports = { selectAll ,selectOneByUserId,selectOneItem};
