@@ -1,4 +1,3 @@
-// DELETE THIS LINE
 
 // UNCOMMENT THE DATABASE YOU'D LIKE TO USE
 const db = require("../database-mysql");
@@ -14,7 +13,7 @@ const selectAll = function (req, res) {
   });
 };
 
-const selectOneByUserId=function (req,res) {
+const selectItemsPerUser=function (req,res) {
     const query=`select * from item where user_iduser = ${req.params.id}`
     db.query(query,(err,result)=>{
         err ? res.status(500).send(err) : res.status(200).send(result)
@@ -29,6 +28,27 @@ const selectOneItem=function (req,res) {
 }
 
 
+const add=(req,res)=>{
+  const query="insert into item set ?"
+  console.log("body: ",req.body);
+  db.query(query,req.body,(err,result)=>{
+    err ? res.status(500).send(err) : res.status(200).send(result)
+})
+}
+
+const remove=(req,res)=>{
+  const query=`delete from item where iditem=${req.params.id}`
+  db.query(query,(err,result)=>{
+    err ? res.status(500).send(err) : res.status(200).send(result)
+  })
+}
+
+const modify=(req,res)=>{
+  const query=`update item set ? where iditem=${req.params.id} `
+  db.query(query,req.body,(err,result)=>{
+    err ? res.status(500).send(err) : res.status(200).send(result)
+  })
+}
 
 
-module.exports = { selectAll ,selectOneByUserId,selectOneItem};
+module.exports = { selectAll ,selectItemsPerUser,selectOneItem,add,remove,modify};
